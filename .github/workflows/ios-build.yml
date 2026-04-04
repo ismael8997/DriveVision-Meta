@@ -1,0 +1,46 @@
+name: Build App (Sideloadly)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Unsigned IPA
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check Xcode version
+        # macos-latest incluye de base la versión más reciente y estable de Xcode
+        run: xcodebuild -version
+
+      - name: Build Xcode Project (Unsigned)
+        # Compila para iPhoneOS mandando los Flags de ignorar la firma al nivel más alto
+        # Usamos CONFIGURATION_BUILD_DIR para saber exactamente dónde se volcará el .app
+        run: |
+          xcodebuild clean build \
+            -project DriveSight.xcodeproj \
+            -scheme DriveSight \
+            -sdk iphoneos \
+            -configuration Release \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_IDENTITY="" \
+            CONFIGURATION_BUILD_DIR=$PWD/build_output
+
+      - name: Package .app into .ipa
+        # Crea la estructura requerida por Sideloadly (Carpeta Payload -> Archivo .app)
+        run: |
+          mkdir -p Payload
+          mv build_output/DriveSight.app Payload/
+          zip -qr DriveSight.ipa Payload/
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DriveSight-App
+          path: DriveSight.ipa

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSCameraUsageDescription</key>
+    <string>DriveSight necesita acceso a la cámara para capturar y analizar el entorno vial, detectando límites de velocidad y semáforos en tiempo real para tu seguridad.</string>
+
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>DriveSight requiere acceso constante al Bluetooth para encontrar, conectar y sincronizar la telemetría en tiempo real desde tus Meta Smart Glasses al conducir.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>DriveSight requiere Bluetooth para comunicarse con accesorios de asistencia al conductor.</string>
+
+    <key>NSMicrophoneUsageDescription</key>
+    <string>DriveSight utiliza tu micrófono para captar tus comandos de voz sin que tengas que soltar el volante.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>DriveSight procesa tu voz para activar alertas de asistencia interactiva y controles manos libres durante la conducción.</string>
+</dict>
+</plist>
