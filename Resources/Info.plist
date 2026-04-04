@@ -14,5 +14,17 @@
     <string>DriveSight utiliza tu micrófono para captar tus comandos de voz sin que tengas que soltar el volante.</string>
     <key>NSSpeechRecognitionUsageDescription</key>
     <string>DriveSight procesa tu voz para activar alertas de asistencia interactiva y controles manos libres durante la conducción.</string>
+
+    <key>MWDAT</key>
+    <dict>
+        <key>AppLinkURLScheme</key>
+        <string>https://ialcalap.app/link</string>
+        <key>MetaAppID</key>
+        <string>1436749884852569</string>
+        <key>ClientToken</key>
+        <string>AR|1436749884852569|d66278b6a63b2c0c7bbb3f14758e6085</string>
+        <key>TeamID</key>
+        <string>A1B2C3D4E5</string>
+    </dict>
 </dict>
 </plist>
