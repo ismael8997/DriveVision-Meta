@@ -1,45 +1,42 @@
-name: Build App (Sideloadly)
+name: "Build iOS App"
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build:
-    name: Build Unsigned IPA
     runs-on: macos-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout del código
         uses: actions/checkout@v4
 
-      - name: Check Xcode version
-        # macos-latest incluye de base la versión más reciente y estable de Xcode
-        run: xcodebuild -version
+      - name: Configurar Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
 
-      - name: Build Xcode Project (Unsigned)
-        # Compila para iPhoneOS mandando los Flags de ignorar la firma al nivel más alto
-        # Usamos CONFIGURATION_BUILD_DIR para saber exactamente dónde se volcará el .app
+      - name: Instalar XcodeGen y Generar Proyecto
         run: |
-          xcodebuild clean build \
-            -project DriveSight.xcodeproj \
-            -scheme DriveSight \
-            -sdk iphoneos \
-            -configuration Release \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_IDENTITY="" \
-            CONFIGURATION_BUILD_DIR=$PWD/build_output
+          brew install xcodegen
+          xcodegen generate
 
-      - name: Package .app into .ipa
-        # Crea la estructura requerida por Sideloadly (Carpeta Payload -> Archivo .app)
+      - name: Compilar App
+        run: |
+          xcodebuild clean build -project DriveSight.xcodeproj \
+          -scheme DriveSight \
+          -sdk iphoneos \
+          -configuration Release \
+          CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+          CONFIGURATION_BUILD_DIR=build/Release-iphoneos
+
+      - name: Empaquetar IPA
         run: |
           mkdir -p Payload
-          mv build_output/DriveSight.app Payload/
-          zip -qr DriveSight.ipa Payload/
+          mv build/Release-iphoneos/DriveSight.app Payload/
+          zip -r DriveSight.ipa Payload
 
-      - name: Upload IPA Artifact
+      - name: Subir IPA
         uses: actions/upload-artifact@v4
         with:
           name: DriveSight-App

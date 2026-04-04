@@ -1,0 +1,15 @@
+name: DriveSight
+options:
+  bundleIdPrefix: com.ismael
+targets:
+  DriveSight:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: App
+      - path: Features
+      - path: Services
+      - path: Models
+    info:
+      path: Resources/Info.plist
